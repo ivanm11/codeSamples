@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+
+{% block content %}
+        <table id="vacancies_table" class="display" width="100%" cellspacing="0">
+            <h2>Vacancies</h2>
+    <thead>
+      <tr>
+        <th>Title</th>
+        <th>Work Schedule</th>
+        <th>Telecommute</th>
+        <th>Vacancy fulfilled</th>
+        <th>Required Skills</th>
+        <th>Desired Skills</th>
+        <th>Description</th>
+        <th>Date</th>
+        <th>Qualification Level</th>
+        <th>Source</th>
+      </tr>
+    </thead>
+    <!--
+    <tfoot>
+        <tr>
+          <th>Title</th>
+          <th>Work Schedule</th>
+          <th>Required Skills</th>
+          <th>Desired Skills</th>
+          <th>Description</th>
+          <th>Date</th>
+          <th>Qualification Level</th>
+          <th>Source</th>
+        </tr>
+    </tfoot>
+    -->
+    <tbody>
+      {% for obj in vacancies %}
+      <tr>
+          <td><a href="{{ obj.link }}">{{ obj.title }}</a></td>
+          <td>{{ obj.work_schedule }}</td>
+          <td>{{ obj.telecommunicate }}</td>
+          <td>{{ obj.is_expired }}</td>
+          <td>{{ obj.required_skills }}</td>
+          <td>{{ obj.desired_skills }}</td>
+          <td>{{ obj.description }}</td>
+          <td>{{ obj.date|date:'Y-m-d H:i' }}</td>
+          <td>{{ obj.qualification_level }}</td>
+          <td>{{ obj.source }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+{% endblock %}
+
+{% block javascripts %}
+<script type="text/javascript">
+    $(document).ready(function() {
+    $('#vacancies_table').DataTable();
+    } );
+</script>
+{% endblock %}

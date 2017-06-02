@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <table id="errors_table" class="display" width="100%" cellspacing="0">
+        <h2>Processing errors</h2>
+        {% if errors|length > 0 %}
+            <thead>
+                <tr>
+                    <th>Vacancy Link</th>
+                    <th>Source</th>
+                    <th>File Name</th>
+                    <th>Error Type</th>
+                    <th>Error Message</th>
+                    <th>Error Line Number</th>
+                    <th>Error Date</th>
+                </tr>
+            </thead>
+            <!--
+            <tfoot>
+                <tr>
+                    <th>Vacancy Link</th>
+                    <th>Source</th>
+                    <th>File Name</th>
+                    <th>Error Type</th>
+                    <th>Error Message</th>
+                    <th>Error Line Number</th>
+                    <th>Error Date</th>
+                </tr>
+            </tfoot>
+            -->
+            <tbody>
+                {% for obj in errors %}
+                <tr>
+                    <th>{{ obj.vacancy_link }}</th>
+                    <th>{{ obj.source }}</th>
+                    <th>{{ obj.file_name }}</th>
+                    <th>{{ obj.error_type }}</th>
+                    <th>{{ obj.error_message }}</th>
+                    <th>{{ obj.error_lineno }}</th>
+                    <th>{{ obj.error_datetime }}</th>
+                </tr>
+                {% endfor %}
+             </tbody>
+        {% else %}
+            <p>No errors at this moment at all.</p>
+        {% endif %}
+        </table>
+{% endblock %}
+
+{% block javascripts %}
+<script type="text/javascript">
+    $(document).ready(function() {
+    $('#errors_table').DataTable();
+    } );
+</script>
+{% endblock %}

@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+{% load userinterface_extras %}
+
+{% block content %}
+    <table id="companies_table" class="display" width="100%" cellspacing="0">
+        <h2>Companies</h2>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Country</th>
+            <th>State</th>
+            <th>City</th>
+            <th>Website</th>
+            <th>Email</th>
+            <th>Phone</th>
+        </tr>
+    </thead>
+    <!--
+    <tfoot>
+        <tr>
+            <th>Name</th>
+            <th>Country</th>
+            <th>State</th>
+            <th>City</th>
+        </tr>
+    </tfoot>
+    -->
+    <tbody>
+        {% for obj in companies %}
+        {% if obj.is_managed %}
+        <tr style="color: #4cae4c;">
+        {% else %}
+        <tr>
+        {% endif %}
+            {% with obj.name|replace as replaced %}
+            {% if replaced %}
+            <td><a href="{% url 'company-page' replaced %}">{{ obj.name }}</a></td>
+            {% else %}
+            <td>{{ obj.name }}</td>
+            {% endif %}
+            {% endwith %}
+            <td>{{ obj.country }}</td>
+            <td>{{ obj.state }}</td>
+            <td>{{ obj.city }}</td>
+            <td>{{ obj.website }}</td>
+            <td>{{ obj.email }}</td>
+            <td>{{ obj.phone }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+    </table>
+{% endblock %}
+
+{% block javascripts %}
+<script type="text/javascript">
+    $(document).ready(function() {
+    $('#companies_table').DataTable();
+    } );
+
+</script>
+{% endblock %}

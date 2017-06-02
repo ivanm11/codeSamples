@@ -1,0 +1,139 @@
+{% extends 'base.html' %}
+{% load userinterface_extras %}
+
+{% block content %}
+<p><b>Company information:</b></p>
+{% if obj.name %}
+<p><b>Company name: </b>{{ obj.name }}</p>
+{% endif %}
+{% if obj.country %}
+<p><b>Country: </b>{{ obj.country }}</p>
+{% endif %}
+{% if obj.state %}
+<p><b>State: </b>{{ obj.state }}</p>
+{% endif %}
+{% if obj.city %}
+<p><b>City: </b>{{ obj.city }}</p>
+{% endif %}
+{% if obj.website %}
+<p><b>Website: </b><a href="{{ obj.website }}">{{ obj.website }}</a></p>
+{% endif %}
+{% if obj.email %}
+<p><b>Email:</b> {{ obj.email }}</p>
+{% endif %}
+{% if obj.phone %}
+<p><b>Phone:</b> {{ obj.phone }}</p>
+{% endif %}
+{% if obj.is_managed %}
+<p><font color="red">This company has been edited manually.</font></p>
+{% endif %}
+
+{% if leads %}
+    <br>
+    <p><b>Associated leads:</b></p>
+    {% for lead in leads %}
+    {% if lead.first_name %}
+        <p><b>First name: </b>{{ lead.first_name }}</p>
+    {% endif %}
+    {% if lead.last_name %}
+        <p><b>Last name: </b>{{ lead.last_name }}</p>
+    {% endif %}
+    {% if lead.country %}
+        <p><b>Country: </b>{{ lead.country }}</p>
+    {% endif %}
+    {% if lead.email %}
+        <p><b>Email: </b>{{ lead.email }}</p>
+    {% elif lead.capture_link %}
+        <p><b>Email: </b><a href="{{ lead.capture_link }}">protected by capcha</a></p>
+    {% endif %}
+    {% if lead.phone %}
+        <p><b>Phone: </b>{{ lead.phone }}</p>
+    {% endif %}
+    <!--
+    {% if not lead.phone and not lead.email and not lead.capture_link %}
+    <p><font color="red">This lead has no any contact information. You can add it manually in Edit Lead section.</font></p>
+    {% endif %}
+    -->
+    <br>
+    {% endfor %}
+{% endif %}
+
+
+<p>
+<button class="btn btn-success" type="button" data-toggle="collapse" data-target="#edit_company" aria-expanded="false" aria-controls="edit_company">
+    Edit company information
+</button>
+</p>
+<div class="collapse" id="edit_company">
+    {% with obj.name|replace as replaced %}
+    <form method="post" action={% url 'company-page' replaced %}>
+    {% endwith %}
+    {% csrf_token %}
+    {% if obj.name %}
+    <div class="form-group has-success">
+    {% else %}
+    <div class="form-group has-error">
+    {% endif %}
+        <label for="input_company_name">Company name</label>
+        <input type="text" name="company_name" class="form-control" id="input_company_name" aria-describedby="company_name_help" placeholder="{{ obj.name }}">
+        <small id="company_name_help" class="form-text text-muted">Fill it with new company name.</small>
+    </div>
+    {% if obj.country %}
+    <div class="form-group has-success">
+    {% else %}
+    <div class="form-group has-error">
+    {% endif %}
+        <label for="input_country">Country</label>
+        <input type="text" name="country" class="form-control" id="input_country" aria-describedby="country_help" placeholder="{{ obj.country }}">
+        <small id="country_help" class="form-text text-muted">Fill it with new country name.</small>
+    </div>
+    {% if obj.state %}
+    <div class="form-group has-success">
+    {% else %}
+    <div class="form-group has-error">
+    {% endif %}
+        <label for="input_state">State</label>
+        <input type="text" name="state" class="form-control" id="input_state" aria-describedby="state_help" placeholder="{{ obj.state }}">
+        <small id="state_help" class="form-text text-muted">Fill it with new state name.</small>
+    </div>
+    {% if obj.city %}
+    <div class="form-group has-success">
+    {% else %}
+    <div class="form-group has-error">
+    {% endif %}
+        <label for="input_city">City</label>
+        <input type="text" name="city" class="form-control" id="input_city" aria-describedby="city_help" placeholder="{{ obj.city }}">
+        <small id="city_help" class="form-text text-muted">Fill it with new city name.</small>
+    </div>
+    {% if obj.website %}
+    <div class="form-group has-success">
+    {% else %}
+    <div class="form-group has-error">
+    {% endif %}
+        <label for="input_website">Website</label>
+        <input type="url" name="website" class="form-control" id="input_website" aria-describedby="website_help" placeholder="{{ obj.website }}">
+        <small id="website_help" class="form-text text-muted">Fill it with new website name.</small>
+    </div>
+    {% if obj.email %}
+    <div class="form-group has-success">
+    {% else %}
+    <div class="form-group has-error">
+    {% endif %}
+        <label for="input_email">Email</label>
+        <input type="email" name="email" class="form-control" id="input_email" aria-describedby="email_help" placeholder="{{ obj.email }}">
+        <small id="email_help" class="form-text text-muted">Fill it with new email.</small>
+    </div>
+    {% if obj.phone %}
+    <div class="form-group has-success">
+    {% else %}
+    <div class="form-group has-error">
+    {% endif %}
+        <label for="input_phone">Phone</label>
+        <input type="text" name="phone" class="form-control" id="input_phone" aria-describedby="phone_help" placeholder="{{ obj.phone }}">
+        <small id="phone_help" class="form-text text-muted">Fill it with new phone.</small>
+    </div>
+    <button type="sumbit" class="btn btn-success">Submit</button>
+</form>
+    </div>
+{% endblock %}
+

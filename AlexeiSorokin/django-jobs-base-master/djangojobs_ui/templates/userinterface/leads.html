@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+{% load userinterface_extras %}
+
+{% block content %}
+        <table id="leads_table" class="display" width="100%" cellspacing="0">
+            <h2>Leads</h2>
+            {% if leads|length > 0 %}
+    <thead>
+      <tr>
+        <th>Company</th>
+        <th>Vacancy</th>
+        <th>First Name</th>
+        <th>Last Name</th>
+        <th>Country</th>
+        <th>Phone</th>
+        <th>Email</th>
+        <th>Source</th>
+      </tr>
+    </thead>
+    <!--
+    <tfoot>
+     <tr>
+      <th>First Name</th>
+      <th>Last Name</th>
+      <th>Country</th>
+      <th>Phone</th>
+      <th>Email</th>
+    </tr>
+    </tfoot>
+    -->
+    <tbody>
+      {% for obj in leads %}
+      <tr>
+        {% with obj.lead_data.company_name|replace as replaced %}
+        {% if replaced %}
+          <td><a href={% url 'company-page' replaced %}>{{ obj.lead_data.company_name }}</a></td>
+        {% else %}
+          <td>{{ obj.name }}</td>
+        {% endif %}
+        {% endwith %}
+          {% if obj.lead_data.vacancy_link %}
+            <td><a href={{ obj.lead_data.vacancy_link }}>{{ obj.lead_data.vacancy_name }}</a></td>
+          {% else %}
+            <td>{{ obj.lead_data.vacancy_name }}</td>
+          {% endif %}
+          <td>{{ obj.lead_data.first_name }}</td>
+          <td>{{ obj.lead_data.last_name }}</td>
+          <td>{{ obj.lead_data.country }}</td>
+          <td>{{ obj.lead_data.phone }}</td>
+          {% if not obj.lead_data.capture_link %}
+            <td>{{ obj.lead_data.email }}</td>
+          {% else %}
+          <td><a href="{{ obj.lead_data.capture_link }}">Protected by captcha</a></td>
+          {% endif %}
+          <td>{{ obj.lead_data.source }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+    {% else %}
+    <p>Lead table is empty.</p>
+    {% endif %}
+  </table>
+{% endblock %}
+
+{% block javascripts %}
+<script type="text/javascript">
+    $(document).ready(function() {
+    $('#leads_table').DataTable();
+    } );
+</script>
+{% endblock %}

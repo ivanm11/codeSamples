@@ -1,0 +1,184 @@
+{% extends 'base.html' %}
+
+{% block content %} 
+    <table class="table">
+        <h2>Vacancies statistic</h2>
+        <p>Currently there are {{ vacancy_stats.all_records }}
+        vacancies in database. </p>
+        <thead>
+            <tr>
+                <th>No title</th>
+                <th>No work schedule</th>
+                <th>No telecommunicate</th>
+                <th>No is_expired</th>
+                <th>No required skills</th>
+                <th>No desired skills</th>
+                <th>No description</th>
+                <th>No date</th>
+                <th>No qualification level</th>
+                <th>No source</th>
+                <th>No link</th>
+                <th>No salary</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>{{ vacancy_stats.no_title }}</td>
+                <td>{{ vacancy_stats.no_schedule }}</td>
+                <td>{{ vacancy_stats.no_telecommunicate }}</td>
+                <td>{{ vacancy_stats.no_is_expired }}</td>
+                <td>{{ vacancy_stats.no_required }}</td>
+                <td>{{ vacancy_stats.no_desired }}</td>
+                <td>{{ vacancy_stats.no_desc }}</td>
+                <td>{{ vacancy_stats.no_date }}</td>
+                <td>{{ vacancy_stats.no_level }}</td>
+                <td>{{ vacancy_stats.no_source }}</td>
+                <td>{{ vacancy_stats.no_link }}</td>
+                <td>{{ vacancy_stats.no_salary }}</td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table">
+        <h2>Companies statistic</h2>
+        <p>Currently there are {{ company_stats.all_records }} companies in database.</p>
+        {% if company_stats.has_managed > 0 %}
+        <p>Where <a href={% url 'edited-companies' %}>{{ company_stats.has_managed }}</a> companies has been edited manually.</p>
+        {% endif %}
+        <thead>
+            <tr>
+                <th>No name</th>
+                <th>No country</th>
+                <th>No state</th>
+                <th>No city</th>
+                <th>No website</th>
+                <th>No email</th>
+                <th>No phone</th>
+            <tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>{{ company_stats.no_name }}</td>
+                <td>{{ company_stats.no_country }}</td>
+                <td>{{ company_stats.no_state }}</td>
+                <td>{{ company_stats.no_city }}</td>
+                <td>{{ company_stats.no_website }}</td>
+                <td>{{ company_stats.no_email }}</td>
+                <td>{{ company_stats.no_phone }}</td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table">
+        <h2>Leads statistic</h2>
+        <p>Currently there are {{ leads_stats.all_records }} leads in database.</p>
+        <thead>
+            <tr>
+                <th>No first name</th>
+                <th>No last name</th>
+                <th>No country</th>
+                <th>No email</th>
+                <th>No capture link</th>
+                <th>No phone</th>
+                <th>No source</th>
+                <th>No vacancy link</th>
+                <th>No vacancy name</th>
+                <th>No company link</th>
+                <th>No company name</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>{{ leads_stats.no_first_name }}</td>
+                <td>{{ leads_stats.no_last_name }}</td>
+                <td>{{ leads_stats.no_country }}</td>
+                <td>{{ leads_stats.no_email }}</td>
+                <td>{{ leads_stats.no_capture_link }}</td>
+                <td>{{ leads_stats.no_phone }}</td>
+                <td>{{ leads_stats.no_source }}</td>
+                <td>{{ leads_stats.no_vacancy_link }}</td>
+                <td>{{ leads_stats.no_vacancy_name }}</td>
+                <td>{{ leads_stats.no_company_link }}</td>
+                <td>{{ leads_stats.no_company_name }}</td>
+            </tr>
+        </tbody>
+    </table>
+    <table id="spiders_table" class="dispala" width="100%" cellspacing="0">
+        <h2>Spiders vacancies results</h2>
+        <p>Currently defined {{ sources|length }} spiders.</p>
+        <thead>
+            <tr>
+                <th>Spider name/link</th>
+                <th>Latest launch</th>
+                <th>Overall</th>
+                <th>This month</th>
+                <th>This week</th>
+                <th>Last time</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <th><a href="{{ sources.djangojobs }}">djangojobs</a></th>
+                <th>{{ vacancy_stats.djangojobs.last_time_runned|date:'Y-m-d H:i' }}</th>
+                <th>{{ vacancy_stats.djangojobs.overall }}</th>
+                <th>{{ vacancy_stats.djangojobs.this_month }}</th>
+                <th>{{ vacancy_stats.djangojobs.this_week }}</th>
+                <th>{{ vacancy_stats.djangojobs.last_time_count }}</th>
+            </tr>
+            <tr>
+                <th><a href="{{ sources.indeed }}">indeed</a></th>
+                <th>{{ vacancy_stats.indeed.last_time_runned|date:'Y-m-d H:i' }}</th>
+                <th>{{ vacancy_stats.indeed.overall }}</th>
+                <th>{{ vacancy_stats.indeed.this_month }}</th>
+                <th>{{ vacancy_stats.indeed.this_week }}</th>
+                <th>{{ vacancy_stats.indeed.last_time_count }}</th>
+            </tr>
+            <tr>
+                <th><a href="{{ sources.stackoverflow }}">stackoverflow</a></th>
+                <th>{{ vacancy_stats.stackoverflow.last_time_runned|date:'Y-m-d H:i'}}</th>
+                <th>{{ vacancy_stats.stackoverflow.overall }}</th>
+                <th>{{ vacancy_stats.stackoverflow.this_month }}</th>
+                <th>{{ vacancy_stats.stackoverflow.this_week }}</th>
+                <th>{{ vacancy_stats.stackoverflow.last_time_count }}</th>
+            </tr>
+            <tr>
+                <th><a href="{{ sources.technojobs }}">technojobs</a></th>
+                <th>{{ vacancy_stats.technojobs.last_time_runned|date:'Y-m-d H:i' }}</th>
+                <th>{{ vacancy_stats.technojobs.overall }}</th>
+                <th>{{ vacancy_stats.technojobs.this_month }}</th>
+                <th>{{ vacancy_stats.technojobs.this_week }}</th>
+                <th>{{ vacancy_stats.technojobs.last_time_count }}</th>
+            </tr>
+            <tr>
+                <th><a href="{{ sources.github }}">github</a></th>
+                <th>{{ vacancy_stats.github.last_time_runned|date:'Y-m-d H:i' }}</th>
+                <th>{{ vacancy_stats.github.overall }}</th>
+                <th>{{ vacancy_stats.github.this_month }}</th>
+                <th>{{ vacancy_stats.github.this_week }}</th>
+                <th>{{ vacancy_stats.github.last_time_count }}</th>
+            </tr>
+            <tr>
+                <th><a href="{{ sources.mashable }}">mashable</a></th>
+                <th>{{ vacancy_stats.mashable.last_time_runned|date:'Y-m-d H:i' }}</th>
+                <th>{{ vacancy_stats.mashable.overall }}</th>
+                <th>{{ vacancy_stats.mashable.this_month }}</th>
+                <th>{{ vacancy_stats.mashable.this_week }}</th>
+                <th>{{ vacancy_stats.mashable.last_time_count }}</th>
+            </tr>
+            <tr>
+                <th><a href="{{ sources.flexjobs }}">flexjobs</a></th>
+            <th>{{ vacancy_stats.flexjobs.last_time_runned|date:'Y-m-d H:i' }}</th>
+                <th>{{ vacancy_stats.flexjobs.overall }}</th>
+                <th>{{ vacancy_stats.flexjobs.this_month }}</th>
+                <th>{{ vacancy_stats.flexjobs.this_week }}</th>
+                <th>{{ vacancy_stats.flexjobs.last_time_count }}</th>
+            </tr>
+        </tbody>
+    </table>
+{% endblock %}
+
+{% block javascripts %}
+<script type="text/javascript">
+    $(document).ready(function() {
+    $('#spiders_table').DataTable();
+    } );
+</script>
+{% endblock %}
